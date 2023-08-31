@@ -4,10 +4,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class AdPage {
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public AdPage(WebDriver driver1) {
-        PageFactory.initElements(driver, this);
+        PageFactory.initElements(driver1, this);
         this.driver = driver1;
     }
 
@@ -17,4 +17,6 @@ public class AdPage {
     public void clickBttn() {
         addToFavoriteButton.click();
     }
+
+
 }

@@ -3,17 +3,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+import java.util.List;
 
 public class FavoritePage {
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public FavoritePage (WebDriver driver1) {
-        PageFactory.initElements(driver, this);
+        PageFactory.initElements(driver1, this);
         this.driver = driver1;
     }
 
@@ -23,13 +21,20 @@ public class FavoritePage {
     @FindBy(css = ".styles-module-root-hwVld")
     private WebElement productName;
 
-    public String getCount() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@data-marker='favorites-rubricator/item-0/selected']")));
-        return favoriteProductsCount.getText().substring(3);
-    }
+    @FindBy(css = ".withFavorites-heart-x57Yw.withFavorites-heart_fill-InZcS")
+    private WebElement heartFilledBttn;
 
     public String getProductName() {
         return productName.getText();
+    }
+
+    public void clickHeartBttn() {
+        heartFilledBttn.click();
+    }
+
+    public String productsCount() {
+        WebElement productsContainer = driver.findElement(By.xpath("//favorite-items-list"));
+        List<WebElement> products = productsContainer.findElements(By.className("item-snippet-root-d2wFO"));
+        return Integer.toString(products.size());
     }
 }
